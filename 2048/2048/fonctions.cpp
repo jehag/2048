@@ -156,14 +156,14 @@ void AjouterDeux(int* TableauDeJeu) {
 	TableauDeJeu[chiffre2] = 2;
 }
 bool ComparerTableaux(int* TableauDeJeu, int* AncienTableauDeJeu) {
-	bool ok = 0;
+	bool memeTableau = false;
 	for (int i = 0; i < 16; i++) {
 		if (AncienTableauDeJeu[i] != TableauDeJeu[i]) {
-			ok = 1;
+			memeTableau = true;
 			break;
 		}
 	}
-	return ok;
+	return memeTableau;
 }
 void CopierTableau(int* TableauDeJeu, int* AncienTableauDeJeu) {
 	for (int i = 0; i < 16; i++) {
@@ -171,23 +171,23 @@ void CopierTableau(int* TableauDeJeu, int* AncienTableauDeJeu) {
 	}
 }
 bool MovePossible(int* TableauDeJeu) {
-	bool yeet = 0;
+	bool pasPerdu = false;
 	if (CompterCasesVides(TableauDeJeu) != 0) {
-		yeet = 1;
+		pasPerdu = true;
 	}
 	else {
 		for (int i = 0; i < 16; i++) {
 			if (i % 4 != 0) {
 				if (TableauDeJeu[i] == TableauDeJeu[i - 1]) {
-					yeet = 1;
+					pasPerdu = true;
 				}
 			}
 			if (i > 3) {
 				if (TableauDeJeu[i] == TableauDeJeu[i - 4]) {
-					yeet = 1;
+					pasPerdu = true;
 				}
 			}
 		}
 	}
-	return yeet;
+	return pasPerdu;
 }
