@@ -16,13 +16,13 @@ using namespace std;
 #define KEY_RIGHT 77
 
 int main() {
-	bool ok = 0;
+	bool lost = 0;
 	int highscore = 0;
 	srand(time(NULL));
-	int TableauDeJeu[16] = {}, AncienTableauDeJeu[16] = {};
-	AjouterDeux(TableauDeJeu);
-	AjouterDeux(TableauDeJeu);
-	AfficherTableau(TableauDeJeu, highscore);
+	int gameBoard[16] = {}, oldGameBoard[16] = {};
+	AddTwo(gameBoard);
+	AddTwo(gameBoard);
+	DisplayGameBoard(gameBoard, highscore);
 	while (true) {
 		string move;
 		int c = 0;
@@ -40,18 +40,17 @@ int main() {
 			move = "right";
 			break;
 		}
-		CopierTableau(TableauDeJeu, AncienTableauDeJeu);
-		MoveAnyDirection(TableauDeJeu, move);
-		if (ComparerTableaux(TableauDeJeu, AncienTableauDeJeu)) {
-			AjouterDeux(TableauDeJeu);
+		CopyGameBoard(gameBoard, oldGameBoard);
+		MoveAnyDirection(gameBoard, move);
+		if (CompareGameBoards(gameBoard, oldGameBoard)) {
+			AddTwo(gameBoard);
 			system("cls");
-			AfficherTableau(TableauDeJeu, highscore);
+			DisplayGameBoard(gameBoard, highscore);
 		}
 		
-		ok = MovePossible(TableauDeJeu);
-		if (!ok) {
-
-			while (!ok) {
+		lost = MovePossible(gameBoard);
+		if (!lost) {
+			while (!lost) {
 				cout << highscore << endl << "Sorry you lost! :(";
 				cin >> move;
 			}

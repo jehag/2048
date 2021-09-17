@@ -1,1 +1,3 @@
-﻿  2048.vcxproj -> C:\Users\Jeremy\OneDrive - polymtl.ca\Programation\C++ bhys\2048\Debug\2048.exe
+﻿  Source.cpp
+C:\Users\Jeremy\OneDrive - polymtl.ca\Programation\C++ bhys\2048\2048\Source.cpp(21,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  2048.vcxproj -> C:\Users\Jeremy\OneDrive - polymtl.ca\Programation\C++ bhys\2048\Debug\2048.exe

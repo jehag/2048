@@ -3,38 +3,35 @@
 
 using namespace std;
 
-int CompterCasesVides(int* TableauDeJeu) {
-	//la fonction compte le nombre de cases vides
-	//param 	[in]	int*	TableauDeJeu 
-	//return	int NbCasesVides
-
-	int NbCasesVides = 0;
+int GetFreeSquares(int* gameBoard) {
+	int nbFreeSquares = 0;
 	for (int i = 0; i < 16; i++) {
-		if (TableauDeJeu[i] == 0) {
-			NbCasesVides++;
+		if (gameBoard[i] == 0) {
+			nbFreeSquares++;
 		}
 	}
-	return NbCasesVides;
+	return nbFreeSquares;
 }
-int* TrouverCasesVides(int* TableauDeJeu) {
-	int compteur = 0;
-	int CasesVides[16] = {};
+int* FindFreeSquares(int* gameBoard) {
+	int counter = 0;
+	int freeSquares[16] = {};
 	for (int i = 0; i < 16; i++) {
-		if (TableauDeJeu[i] == 0) {
-			CasesVides[compteur] = i;
-			compteur++;
+		if (gameBoard[i] == 0) {
+			freeSquares[counter] = i;
+			counter++;
 		}
 	}
-	return CasesVides;
+	return freeSquares;
 }
-void AfficherTableau(int* TableauDeJeu, int& highscore) {
+void DisplayGameBoard(int* gameBoard, int& highscore) {
 	for (int i = 0; i < 16; i++) {
-		if (TableauDeJeu[i] > highscore)
-			highscore = TableauDeJeu[i];
+		if (gameBoard[i] > highscore)
+			highscore = gameBoard[i];
 	}
 	for (int i = 0; i < 16; i++) {
-		cout << TableauDeJeu[i];
-		int j = to_string(TableauDeJeu[i]).length();
+		cout << gameBoard[i];
+		int j = to_string(gameBoard[i]).length();
+		// Adjust the size of the square depending on the number size
 		while (j <= to_string(highscore).length()) {
 			cout << " ";
 			j++;
@@ -44,17 +41,17 @@ void AfficherTableau(int* TableauDeJeu, int& highscore) {
 		}
 	}
 }
-void MoveZero(int* TableauDeJeu, string move) {
+void MoveZero(int* gameBoard, string move) {
 
 	if (move == "left") {
 		for (int i = 1; i < 16; i++) {
 			if (i % 4 == 0) {
 				i++;
 			}
-			if (TableauDeJeu[i] != 0) {
-				if (TableauDeJeu[i - 1] == 0) {
-					TableauDeJeu[i - 1] = TableauDeJeu[i];
-					TableauDeJeu[i] = 0;
+			if (gameBoard[i] != 0) {
+				if (gameBoard[i - 1] == 0) {
+					gameBoard[i - 1] = gameBoard[i];
+					gameBoard[i] = 0;
 				}
 			}
 		}
@@ -64,46 +61,46 @@ void MoveZero(int* TableauDeJeu, string move) {
 			if (i % 4 == 3) {
 				i -= 1;
 			}
-			if (TableauDeJeu[i] != 0) {
-				if (TableauDeJeu[i + 1] == 0) {
-					TableauDeJeu[i + 1] = TableauDeJeu[i];
-					TableauDeJeu[i] = 0;
+			if (gameBoard[i] != 0) {
+				if (gameBoard[i + 1] == 0) {
+					gameBoard[i + 1] = gameBoard[i];
+					gameBoard[i] = 0;
 				}
 			}
 		}
 	}
 	else if (move == "up") {
 		for (int i = 4; i < 16; i++) {
-			if (TableauDeJeu[i] != 0) {
-				if (TableauDeJeu[i - 4] == 0) {
-					TableauDeJeu[i - 4] = TableauDeJeu[i];
-					TableauDeJeu[i] = 0;
+			if (gameBoard[i] != 0) {
+				if (gameBoard[i - 4] == 0) {
+					gameBoard[i - 4] = gameBoard[i];
+					gameBoard[i] = 0;
 				}
 			}
 		}
 	}
 	else if (move == "down") {
 		for (int i = 11; i >= 0; i--) {
-			if (TableauDeJeu[i] != 0) {
-				if (TableauDeJeu[i + 4] == 0) {
-					TableauDeJeu[i + 4] = TableauDeJeu[i];
-					TableauDeJeu[i] = 0;
+			if (gameBoard[i] != 0) {
+				if (gameBoard[i + 4] == 0) {
+					gameBoard[i + 4] = gameBoard[i];
+					gameBoard[i] = 0;
 				}
 			}
 		}
 	}
 
 }
-void MoveAddition(int* TableauDeJeu, string move) {
+void MoveAddition(int* gameBoard, string move) {
 	if (move == "left") {
 		for (int i = 1; i < 16; i++) {
 			if (i % 4 == 0) {
 				i++;
 			}
-			if (TableauDeJeu[i] != 0) {
-				if (TableauDeJeu[i - 1] == TableauDeJeu[i]) {
-					TableauDeJeu[i - 1] *= 2;
-					TableauDeJeu[i] = 0;
+			if (gameBoard[i] != 0) {
+				if (gameBoard[i - 1] == gameBoard[i]) {
+					gameBoard[i - 1] *= 2;
+					gameBoard[i] = 0;
 				}
 			}
 		}
@@ -113,81 +110,79 @@ void MoveAddition(int* TableauDeJeu, string move) {
 			if (i % 4 == 3) {
 				i -= 1;
 			}
-			if (TableauDeJeu[i] != 0) {
-				if (TableauDeJeu[i + 1] == TableauDeJeu[i]) {
-					TableauDeJeu[i + 1] *= 2;
-					TableauDeJeu[i] = 0;
+			if (gameBoard[i] != 0) {
+				if (gameBoard[i + 1] == gameBoard[i]) {
+					gameBoard[i + 1] *= 2;
+					gameBoard[i] = 0;
 				}
 			}
 		}
 	}
 	else if (move == "up") {
 		for (int i = 4; i < 16; i++) {
-			if (TableauDeJeu[i] != 0) {
-				if (TableauDeJeu[i - 4] == TableauDeJeu[i]) {
-					TableauDeJeu[i - 4] *= 2;
-					TableauDeJeu[i] = 0;
+			if (gameBoard[i] != 0) {
+				if (gameBoard[i - 4] == gameBoard[i]) {
+					gameBoard[i - 4] *= 2;
+					gameBoard[i] = 0;
 				}
 			}
 		}
 	}
 	else if (move == "down") {
 		for (int i = 11; i >= 0; i--) {
-			if (TableauDeJeu[i] != 0) {
-				if (TableauDeJeu[i + 4] == TableauDeJeu[i]) {
-					TableauDeJeu[i + 4] *= 2;
-					TableauDeJeu[i] = 0;
+			if (gameBoard[i] != 0) {
+				if (gameBoard[i + 4] == gameBoard[i]) {
+					gameBoard[i + 4] *= 2;
+					gameBoard[i] = 0;
 				}
 			}
 		}
 	}
 }
-void MoveAnyDirection(int* TableauDeJeu, string move) {
+void MoveAnyDirection(int* gameBoard, string move) {
 	for (int k = 0; k < 4; k++) {
-		MoveZero(TableauDeJeu, move);
+		MoveZero(gameBoard, move);
 	}
-	MoveAddition(TableauDeJeu, move);
-	MoveZero(TableauDeJeu, move);
+	MoveAddition(gameBoard, move);
+	MoveZero(gameBoard, move);
 }
-void AjouterDeux(int* TableauDeJeu) {
-	int chiffre = rand() % CompterCasesVides(TableauDeJeu);
-	int* CasesVides = TrouverCasesVides(TableauDeJeu);
-	int chiffre2 = CasesVides[chiffre];
-	TableauDeJeu[chiffre2] = 2;
+void AddTwo(int* gameBoard) {
+	int position = rand() % GetFreeSquares(gameBoard);
+	int* freeSquares = FindFreeSquares(gameBoard);
+	int gamePosition = freeSquares[position];
+	gameBoard[gamePosition] = 2;
 }
-bool ComparerTableaux(int* TableauDeJeu, int* AncienTableauDeJeu) {
-	bool memeTableau = false;
+bool CompareGameBoards(int* gameBoard, int* oldGameBoard) {
 	for (int i = 0; i < 16; i++) {
-		if (AncienTableauDeJeu[i] != TableauDeJeu[i]) {
-			memeTableau = true;
-			break;
+		if (oldGameBoard[i] != gameBoard[i]) {
+			return true;
 		}
 	}
-	return memeTableau;
+	return false;
 }
-void CopierTableau(int* TableauDeJeu, int* AncienTableauDeJeu) {
+void CopyGameBoard(int* gameBoard, int* oldGameBoard) {
 	for (int i = 0; i < 16; i++) {
-		AncienTableauDeJeu[i] = TableauDeJeu[i];
+		oldGameBoard[i] = gameBoard[i];
 	}
 }
-bool MovePossible(int* TableauDeJeu) {
-	bool pasPerdu = false;
-	if (CompterCasesVides(TableauDeJeu) != 0) {
-		pasPerdu = true;
+bool MovePossible(int* gameBoard) {
+	bool haventLost = false;
+	if (GetFreeSquares(gameBoard) != 0) {
+		haventLost = true;
 	}
 	else {
 		for (int i = 0; i < 16; i++) {
 			if (i % 4 != 0) {
-				if (TableauDeJeu[i] == TableauDeJeu[i - 1]) {
-					pasPerdu = true;
+				if (gameBoard[i] == gameBoard[i - 1]) {
+					haventLost = true;
 				}
 			}
 			if (i > 3) {
-				if (TableauDeJeu[i] == TableauDeJeu[i - 4]) {
-					pasPerdu = true;
+				if (gameBoard[i] == gameBoard[i - 4]) {
+					haventLost = true;
 				}
 			}
 		}
 	}
-	return pasPerdu;
+	return haventLost;
 }
